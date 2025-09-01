@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>GRMM: Real-Time High-Fidelity Gaussian Morphable Head Model with Learned Residuals</title>
+
+
+	<!-- Meta tags for Zotero grab citation -->
+	<meta name="citation_title" content="GRMM: Real-Time High-Fidelity Gaussian Morphable Head Model with Learned Residuals" />
+	<meta name="citation_author" content="Mohit Mendiratta" />
+	<meta name="citation_author" content="Mayur Deshmukh" />
+	<meta name="citation_author" content="Kartik Teotia" />
+	<meta name="citation_author" content="Vladislav Golyanik" />
+	<meta name="citation_author" content="Adam Kortylewski" />
+	<meta name="citation_author" content="Christian Theobalt" />
+
+	<meta name="citation_pdf_url" content="data/paper.pdf" />
+
+	<meta name="robots" content="index,follow" />
+	<meta name="description" content="Capturing and editing full head performances enables the creation of virtual characters with various applications such as extended reality and media production. The past few years witnessed a steep rise in the photorealism of human head avatars. Such avatars can be controlled through different input data modalities, including RGB, audio, depth, IMUs and others. While these data modalities provide effective means of control, they mostly focus on editing the head movements such as the facial expressions, head pose and/or camera viewpoint. In this paper, we propose AvatarStudio, a text-based method for editing the appearance of a dynamic full head avatar. Our approach builds on existing work to capture dynamic performances of human heads using neural radiance field (NeRF) and edits this representation with a text-to-image diffusion model. Specifically, we introduce an optimization strategy for incorporating multiple keyframes representing different camera viewpoints and time stamps of a video performance into a single diffusion model. Using this personalized diffusion model, we edit the dynamic NeRF by introducing view-and-time-aware Score Distillation Sampling (VT-SDS) following a model-based guidance approach. Our method edits the full head in a canonical space, and then propagates these edits to remaining time steps via a pretrained deformation network. We evaluate our method visually and numerically via a user study, and results show that our method outperforms existing approaches. Our experiments validate the design choices of our method and highlight that our edits are genuine, personalized, as well as 3D- and time-consistent." />
+	<link rel="author" href="http://www.mpi-inf.mpg.de/~prao/" />
+
+	<!-- Fonts and stuff -->
+	<link href="./GRMM/css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="./GRMM/project.css" media="screen" />
+	<link rel="stylesheet" type="text/css" media="screen" href="./GRMM/iconize.css" />
+	<script src="./GRMM/prettify.js.download"></script>
+</head>
+
+<body>
+	<div id="content">
+		<div id="content-inner">
+			<div class="section logos" style="text-align:center">
+				<a href="https://www.mpi-inf.mpg.de" target="_blank"><img src="./GRMM/mpii-logo.png" height="60" /></a>
+				<a href="https://saarland-informatics-campus.de/en/" target="_blank"><img src="./GRMM/sic-logo.webp" height="60" /></a>
+				<a href="https://uni-freiburg.de/en/" target="_blank"><img src="./GRMM/freiburg.jpg" width="280" height="60" /></a>
+			</div>
+
+			<div class="section head">
+			
+				<h1>GRMM: Real-Time High-Fidelity Gaussian Morphable Head Model with Learned Residuals</h1>
+
+				<div class="authors">
+					<a href="https://people.mpi-inf.mpg.de/~mmendira/" target="_blank">Mohit Mendiratta</a><sup>1</sup>&#160;&#160;
+					<a href="https://www.linkedin.com/in/mayurdeshmukh10/?originalSubdomain=de" target="_blank">Mayur Deshmukh</a><sup>1</sup>&#160;&#160;
+					<a href= "https://people.mpi-inf.mpg.de/~kteotia/" target="_blank">Kartik Teotia</a><sup>1</sup>&#160;&#160;
+					<a href="https://people.mpi-inf.mpg.de/~golyanik/" target="_blank">Vladislav Golyanik</a><sup>1</sup>&#160;&#160;
+					<a href="https://gvrl.mpi-inf.mpg.de/" target="_blank">Adam Kortylewski</a><sup>1,2</sup>
+					<a href="http://www.mpi-inf.mpg.de/~theobalt/" target="_blank">Christian Theobalt</a><sup>1</sup>
+
+				</div>
+
+				<div class="affiliations">
+					<sup>1</sup><a href="http://www.mpi-inf.mpg.de/" target="_blank">Max Planck Institute for Informatics, Saarland Informatics Campus</a> &#160;&#160;
+					<sup>2</sup><a href="https://uni-freiburg.de/en/" target="_blank">University of Freiburg</a> &#160;&#160;
+				</div>
+				
+			</div>
+
+			<div class="section abstract">
+			</div>
+
+
+			<div class="section teaser">
+			<p align="center" style="margin-left:auto;">
+                        <img style="width:80%;" src="./GRMM/teaser.jpg">
+                        </p>
+			</div>
+
+
+			<div class="section abstract">
+				<h2>Abstract</h2>
+				<p>
+				</p>
+				3D Morphable Models (3DMMs) enable controllable facial geometry and expression editing for reconstruction, animation, and AR/VR, but traditional PCA-based mesh models are limited in resolution, detail, and photorealism. Neural volumetric methods improve realism but remain too slow for interactive use. Recent Gaussian Splatting (3DGS) based facial models achieve fast, high-quality rendering but still depend solely on a mesh-based 3DMM prior for expression control, limiting their ability to capture fine-grained geometry, expressions, and full-head coverage. We introduce GRMM, the first full-head Gaussian 3D morphable model that augments a base 3DMM with residual geometry and appearance components, additive refinements that recover high-frequency details such as wrinkles, fine skin texture, and hairline variations. GRMM provides disentangled control through low-dimensional, interpretable parameters (e.g., identity shape, facial expressions) while separately modelling residuals that capture subject- and expression-specific detail beyond the base model's capacity. Coarse decoders produce vertex-level mesh deformations, fine decoders represent per-Gaussian appearance, and a lightweight CNN refines rasterised images for enhanced realism, all while maintaining 75 FPS real-time rendering. To learn consistent, high-fidelity residuals, we present EXPRESS-50, the first dataset with 60 aligned expressions across 50 identities, enabling robust disentanglement of identity and expression in Gaussian-based 3DMMs. Across monocular 3D face reconstruction, novel-view synthesis, and expression transfer, GRMM surpasses state-of-the-art methods in fidelity and expression accuracy while delivering interactive real-time performance.
+
+			</div>
+
+                        <div class="section teaser">
+			  <h2>Results</h2>
+                              <video width="640" height="360" controls=""><source src="data/GRMM_supplemental.mp4" type="video/mp4"></video>
+                              
+			</div>
+
+
+			<div class="section downloads">
+				<h2>Downloads</h2>
+				<center>
+				<ul>
+					<li class="grid">
+						<div class="griditem">
+							<a href="https://dl.acm.org/doi/pdf/10.1145/3618368" target="_blank" class="imageLink"><img src="./GRMM/pdf.png"></a><br>
+							Paper<br>
+							<a href="https://dl.acm.org/doi/pdf/10.1145/3618368" target="_blank"> PDF, 21 MB </a>
+						</div>
+					</li>
+					<li class="grid">
+							<div class="griditem">
+								<a href="" target="_blank"
+									class="imageLink"><img src="images/data_ico.png"></a><br />
+									<a href="" target="_blank">Code</a><br>
+									<a href="" target="_blank">Coming Soon</a>
+							</div>
+					</li>
+
+				</ul>
+				</center>
+			</div>
+			<br>
+			<div class="section list">
+				<h2>Citation</h2>
+				<div class="section bibtex">
+					<pre>@article{10.1145/3618368,
+author = {Mendiratta, Mohit and Pan, Xingang and Elgharib, Mohamed and Teotia, Kartik and R, Mallikarjun B and Tewari, Ayush and Golyanik, Vladislav and Kortylewski, Adam and Theobalt, Christian},
+title = {AvatarStudio: Text-Driven Editing of 3D Dynamic Human Head Avatars},
+year = {2023},
+issue_date = {December 2023},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {42},
+number = {6},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/3618368},
+doi = {10.1145/3618368},
+journal = {ACM Trans. Graph.},
+month = {dec},
+articleno = {226},
+numpages = {18},
+keywords = {neural rendering, 3D dynamic human head avatar, diffusion model, text-driven editing}
+}
+
+				</pre></div>
+			</div>
+
+
+			<div class="section acknowledgments">
+				<h2>Acknowledgments</h2>
+				<p>
+					This work was supported by the ERC Consolidator Grant 4DReply (770784).
+				</p>
+			</div>
+
+			<div class="section contact">
+                <h2>Contact</h2>
+                For questions, clarifications, please get in touch with:<br />
+                Mohit Mendiratta<br /><a href='mailt&#111;&#58;mmendira&#64;&#109;p&#105;&#45;inf&#46;%6D&#37;&#55;0%67&#46;&#100;e'>mmendira&#64;mp&#105;-inf&#46;mp&#103;&#46;&#100;e</a>
+            </div>
+
+			<div class="section">
+				<hr class="smooth">
+<!--
+				This page is <a href="http://www.zotero.org" target="_blank">Zotero</a> translator friendly. Page last updated 
+-->
+				<script type="text/javascript">
+					var m = "This page was last updated: " + document.lastModified;
+					var p = m.length-9;
+					document.writeln("<left>");
+					document.write(m.substring(p, 0) + ".");
+					document.writeln("</left>");
+				</script><left>
+
+
+				<a href="https://www.mpi-inf.mpg.de/imprint/">Imprint</a>. <a href="https://data-protection.mpi-klsb.mpg.de/inf/gvv.mpi-inf.mpg.de/projects/">Data Protection</a>.
+			</div>
+		</div>
+	</div>
+
+
+</body></html></pre></pre></pre></pre></pre>
