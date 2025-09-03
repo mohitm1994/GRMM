@@ -79,7 +79,21 @@
 				<p align="center" style="margin-left:auto;">
                 <img style="width:80%;" src="method_figure.jpg">
                 </p>
-				3D Morphable Models (3DMMs) enable controllable facial geometry and expression editing for reconstruction, animation, and AR/VR, but traditional PCA-based mesh models are limited in resolution, detail, and photorealism. Neural volumetric methods improve realism but remain too slow for interactive use. Recent Gaussian Splatting (3DGS) based facial models achieve fast, high-quality rendering but still depend solely on a mesh-based 3DMM prior for expression control, limiting their ability to capture fine-grained geometry, expressions, and full-head coverage. We introduce GRMM, the first full-head Gaussian 3D morphable model that augments a base 3DMM with residual geometry and appearance components, additive refinements that recover high-frequency details such as wrinkles, fine skin texture, and hairline variations. GRMM provides disentangled control through low-dimensional, interpretable parameters (e.g., identity shape, facial expressions) while separately modelling residuals that capture subject- and expression-specific detail beyond the base model's capacity. Coarse decoders produce vertex-level mesh deformations, fine decoders represent per-Gaussian appearance, and a lightweight CNN refines rasterised images for enhanced realism, all while maintaining 75 FPS real-time rendering. To learn consistent, high-fidelity residuals, we present EXPRESS-50, the first dataset with 60 aligned expressions across 50 identities, enabling robust disentanglement of identity and expression in Gaussian-based 3DMMs. Across monocular 3D face reconstruction, novel-view synthesis, and expression transfer, GRMM surpasses state-of-the-art methods in fidelity and expression accuracy while delivering interactive real-time performance.
+				<strong>Overview of GRMM.</strong>
+        Identity and expression latents \( \mathbf{z}_{id}\in\mathbb{R}^{512} \) and \( \mathbf{z}_{exp}\in\mathbb{R}^{256} \),
+        together with FLAME pose/expression parameters \( (\theta_{\mathrm{neck}},\theta_{\mathrm{jaw}},\alpha_{\mathrm{exp}}) \),
+        drive the coarse mesh decoder \( \Phi_{\mathrm{mesh}} \) to predict per-vertex displacements \( \mathbf{v}_{\delta} \).
+        Adding these to the tracked mesh \( \mathbf{v}_{\mathrm{rec}} \) yields the deformed mesh
+        \( \mathbf{M}_{\mathrm{d}}=(\mathbf{v}_{\mathrm{d}},\mathcal{F}) \).
+        UV-anchored 3D Gaussians with initial \( (\mathbf{p}_{\mathrm{in}},\mathbf{r}_{\mathrm{in}},\mathbf{s}_{\mathrm{in}}) \)
+        are placed on \( \mathbf{M}_{\mathrm{d}} \).
+        The transformation decoder \( \Phi_{\mathrm{T}}(\mathbf{z}_{id},\mathbf{z}_{exp}) \) outputs UV-aligned maps
+        \( \delta_p,\delta_r,\delta_s \) to refine position, rotation, and scale; the opacity decoder
+        \( \Phi_{\alpha}(\mathbf{z}_{id}) \) and appearance decoder \( \Phi_{\mathrm{app}} (\mathbf{z}_{id},\mathbf{d}) \)
+        produce opacity, RGB, and a 32-D feature map. A differentiable rasterizer renders
+        \( \mathbf{I}_{\mathrm{rgb}}, \mathbf{I}_{\mathrm{depth}}, \mathbf{I}_{\mathrm{feature}} \), where
+        \( \mathbf{I}_{\mathrm{depth}} \) is normalized to \( \mathbf{I}_{\mathrm{depth}}^{\mathrm{norm}} \) and provided as input
+        to the screen-space CNN \( \Psi_{\mathrm{ref}} \), which outputs the final RGB image \( \mathbf{I} \).
 
 			</div>
 
